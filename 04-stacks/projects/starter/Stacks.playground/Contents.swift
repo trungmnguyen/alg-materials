@@ -72,3 +72,42 @@ example(of: "initializing a stack from an array literal") {
   print(stack)
   stack.pop()
 }
+
+
+// STACK CHANLLENGES
+
+//1. REVERSE ARRAY - Create a function that uses a stack to print the contents of an array in reversed order.
+func printInReverse<T> (_ array: [T]) {
+    var stack = Stack<T>()
+    
+    for value in array {
+        stack.push(value)
+    }
+    
+    while let value = stack.pop() {
+        print(value)
+    }
+}
+
+printInReverse([1,2,3,4])
+
+//2. BALANCE THE PARENTHESES - Check for balanced parentheses. Given a string, check if there are ( and ) characters, and return true if the parentheses in the string are balanced.
+
+func checkParentheses(_ string: String) -> Bool {
+    var stack = Stack<Character>()
+    
+    for character in string {
+        if character == "(" {
+            stack.push(character)
+        } else if character == ")" {
+            if stack.isEmpty {
+                return false
+            } else {
+                stack.pop()
+            }
+        }
+    }
+    return stack.isEmpty
+}
+
+print("Is parentheses " + checkParentheses("()a()").description)
