@@ -9,7 +9,78 @@
 func mergeSorted<T: Comparable>(_ left: LinkedList<T>,
                                 _ right: LinkedList<T>) -> LinkedList<T> {
   
-  LinkedList<T>() // placeholder
+    guard !left.isEmpty else {
+      return right
+    }
+    guard !right.isEmpty else {
+    return left }
+    
+    var newHead : Node<T>?
+    var tail : Node<T>?
+    
+    var currentLeft = left.head
+    var currentRight = right.head
+    
+    
+    if let leftNode = currentLeft, let rightNode = currentRight {
+        if leftNode.value < rightNode.value {
+            newHead = leftNode
+            currentLeft = leftNode.next
+        } else {
+            newHead = rightNode
+            currentRight = rightNode.next
+        }
+        
+        tail = newHead
+    }
+    
+    while let leftNode = currentLeft, let rightNode = currentRight {
+        if leftNode.value < rightNode.value {
+            tail?.next = leftNode
+            currentLeft = leftNode.next
+        } else {
+            tail?.next = rightNode
+            currentRight = rightNode.next
+        }
+        
+        tail = tail?.next
+    }
+    
+    // left list has remaining nodes
+    if let leftNodes = currentLeft {
+        tail?.next = leftNodes
+    }
+    
+    // right list has remaining nodes
+    if let rightNodes = currentRight {
+        tail?.next = rightNodes
+    }
+    
+    var list = LinkedList<T>()
+    list.head = newHead
+    list.tail = {
+        
+        // need to loop to the end of the list from the tail in case that the right/left list has remaining nodes
+        while let next = tail?.next {
+            tail = next
+        }
+        return tail
+    }()
+    return list
 }
 
+example(of: "merging two lists") {
+  var list = LinkedList<Int>()
+  list.push(3)
+  list.push(2)
+  list.push(1)
+  var anotherList = LinkedList<Int>()
+  anotherList.push(-1)
+  anotherList.push(-2)
+  anotherList.push(-3)
+  print("First list: \(list)")
+  print("Second list: \(anotherList)")
+  let mergedList = mergeSorted(list, anotherList)
+  print("Merged list: \(mergedList)")
+}
 //: [Next Challenge](@next)
