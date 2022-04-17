@@ -49,3 +49,25 @@ twenty.add(seven)
 
 // Your solution here
 
+func printEachLevel<T> (for tree: TreeNode<T>) {
+    
+    var queue = Queue<TreeNode<T>>()
+    var nodeLeftInCurrentLevel = 0
+    queue.enqueue(tree)
+    
+    while !queue.isEmpty {
+        
+        nodeLeftInCurrentLevel = queue.count
+        
+        while nodeLeftInCurrentLevel > 0 {
+            guard let node = queue.dequeue() else { break }
+            print("\(node.value) ", terminator: "")
+            node.children.forEach{queue.enqueue($0)}
+            nodeLeftInCurrentLevel -= 1
+        }
+        
+        print()
+    }
+}
+
+printEachLevel(for: tree)
