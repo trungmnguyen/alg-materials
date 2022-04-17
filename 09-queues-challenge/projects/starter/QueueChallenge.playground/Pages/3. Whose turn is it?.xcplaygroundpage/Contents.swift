@@ -17,6 +17,19 @@ public protocol BoardGameManager {
   mutating func nextPlayer() -> Player?
 }
 
+
+extension QueueArray: BoardGameManager {
+     public typealias Player = T
+    
+    public mutating func nextPlayer() -> Player? {
+        guard let person = dequeue() else {
+            return nil
+        }
+        
+        enqueue(person)
+        return person
+    }
+}
 /*
 var queue = QueueArray<String>()
 queue.enqueue("Vincent")
