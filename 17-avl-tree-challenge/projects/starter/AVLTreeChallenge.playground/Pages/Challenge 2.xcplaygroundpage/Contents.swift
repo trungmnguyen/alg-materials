@@ -9,6 +9,18 @@
 */
 
 // Your code here
-// nodes(inTreeOfHeight: 3)
+import Foundation
+func nodes(inTreeOfHeight height: Int) -> Int {
+    var totalHeight = 0
+    for currentHeight in 0...height {
+        totalHeight += Int(pow(2.0, Double(currentHeight)))
+    }
+    return totalHeight
+    
+    //
+//    Int(pow(2.0, Double(height + 1))) - 1
+}
 
+
+nodes(inTreeOfHeight: 3)
 //: [Next Challenge](@next)
