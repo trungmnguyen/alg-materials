@@ -44,10 +44,48 @@ var tree: BinaryNode<Int> = {
 print(tree)
 
 // Your code here
+extension BinaryNode {
+    public func traversePreOrder(visit: (Element?) -> Void) {
+        visit(value)
+        if let leftChild = leftChild {
+            leftChild.traversePreOrder(visit: visit)
+        } else {
+            visit(nil)
+        }
+        
+        if let rightChild = rightChild {
+            rightChild.traversePreOrder(visit: visit)
+        } else {
+            visit(nil)
+        }
+    }
+}
 
-/*
+func serialize<T>(_ node: BinaryNode<T>) -> [T?] {
+    var array: [T?] = []
+    node.traversePreOrder{ array.append($0)}
+    return array
+}
+
+func deserialize<T>(_ array: inout [T?]) -> BinaryNode<T>? {
+    
+    guard !array.isEmpty, let value = array.removeLast() else {
+        return nil
+    }
+    
+    let node = BinaryNode(value: value)
+    node.leftChild = deserialize(array)
+    node.rightChild = deserialize(array)
+    return node
+}
+
+func deserialize<T>(_ array: [T?]) -> BinaryNode<T>? {
+  var reversed = Array(array.reversed())
+  return deserialize(&reversed)
+}
+
 let array = serialize(tree)
 print(array)
 let node = deserialize(array)
 print(node!)
-*/
+

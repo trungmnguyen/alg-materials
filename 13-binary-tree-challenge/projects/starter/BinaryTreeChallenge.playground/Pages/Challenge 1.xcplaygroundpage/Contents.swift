@@ -30,7 +30,15 @@ var tree: BinaryNode<Int> = {
 print(tree)
 
 // Your code here
+func height<T>(of node: BinaryNode<T>?) -> Int {
+    // 1
+    guard let node = node else {
+        return -1 }
+    // 2
+    return 1 + max(height(of: node.leftChild), height(of:
+                                                        node.rightChild))
+}
 
-// height(of: tree)
+print("height of tree \(height(of: tree))")
 
 //: [Next Challenge](@next)
