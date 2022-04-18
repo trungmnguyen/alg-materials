@@ -74,8 +74,8 @@ func deserialize<T>(_ array: inout [T?]) -> BinaryNode<T>? {
     }
     
     let node = BinaryNode(value: value)
-    node.leftChild = deserialize(array)
-    node.rightChild = deserialize(array)
+    node.leftChild = deserialize(&array)
+    node.rightChild = deserialize(&array)
     return node
 }
 
