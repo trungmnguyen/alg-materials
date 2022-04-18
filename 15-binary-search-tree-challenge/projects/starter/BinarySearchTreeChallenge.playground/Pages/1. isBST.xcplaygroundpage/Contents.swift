@@ -18,5 +18,26 @@ print(bst)
 
 // Your solution here
 
+extension BinaryNode where Element: Comparable {
+    var isBinarySearchTree: Bool {
+        isBST(self, min: nil, max: nil)
+    }
+    
+    private func isBST(_ tree: BinaryNode<Element>?,
+                       min: Element?,
+                       max: Element?) -> Bool {
+        guard let tree = tree else {
+            return true
+        }
+        
+        if let min = min, tree.value <= min {
+            return false
+        } else if let max = max, tree.value > max {
+            return false
+        }
+        
+        return isBST(tree.leftChild, min: min, max: tree.value) && isBST(tree.rightChild, min: tree.value, max: max)
+    }
+}
 //: [Next Challenge](@next)
 

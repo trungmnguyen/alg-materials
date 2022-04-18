@@ -5,6 +5,8 @@
  ### #2. Equatable
  The binary search tree currently lacks `Equatable` conformance. Your challenge is to conform adopt the `Equatable` protocol.
  */
+
+import Foundation
 var bst = BinarySearchTree<Int>()
 bst.insert(3)
 bst.insert(1)
@@ -26,4 +28,20 @@ bst2.insert(4)
 // Are bst1 and bst2 equal?
 // Your solution here
 
+extension BinarySearchTree: Equatable {
+    public static func ==(lhs: BinarySearchTree, rhs: BinarySearchTree) -> Bool {
+        isEqual(lhs.root, rhs.root)
+    }
+    
+    private static func isEqual<Element: Equatable>(_ node1: BinaryNode<Element>?, _ node2:BinaryNode<Element>?) -> Bool {
+
+        guard let leftNode = node1, let rightNode = node2 else {
+            return node1 == nil && node2 == nil
+        }
+        
+        return leftNode.value == rightNode.value
+        && isEqual(leftNode.leftChild, rightNode.leftChild)
+        && isEqual(leftNode.rightChild, rightNode.rightChild)
+    }
+}
 //: [Next Challenge](@next)
