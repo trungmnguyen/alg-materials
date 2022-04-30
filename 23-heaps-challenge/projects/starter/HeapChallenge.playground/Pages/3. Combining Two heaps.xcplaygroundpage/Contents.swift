@@ -19,10 +19,13 @@
  ```
  */
 
+
 let elements = [21, 10, 18, 5, 3, 100, 1]
 let elements2 = [8, 6, 20, 15, 12, 11]
 var heap = Heap(sort: <, elements: elements)
+print(heap)
 var heap2 = Heap(sort: <, elements: elements2)
+print(heap2)
 
 heap.merge(heap: heap2)
 print(heap)

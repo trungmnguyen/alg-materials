@@ -13,7 +13,15 @@
 
 func getNthSmallestElement(n: Int, elements: [Int]) -> Int? {
 
-  // Your code here
+    var heap = Heap(sort: <, elements: elements)
+    var current = 1
+    while !heap.isEmpty {
+        let element = heap.remove()
+        if current == n {
+            return element
+        }
+        current += 1
+    }
   
   return nil
 }
