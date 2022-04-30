@@ -42,7 +42,17 @@ extension Array where Element: Comparable {
   }
   
   mutating func heapSort() {
-    // do something
+      if !isEmpty {
+          // Build Heap
+          for i in stride(from: count / 2 - 1, through: 0, by: -1) {
+              siftDown(from: i, upTo: count)
+          }
+          
+          for index in indices.reversed() {
+              swapAt(0, index)
+              siftDown(from: 0, upTo: index)
+          }
+      }
   }
 }
 
@@ -62,4 +72,3 @@ array.heapSort()
  The chapter implementation of heap sort, sorts the elements in ascending order.
  How would you sort in descending order?
  */
-
