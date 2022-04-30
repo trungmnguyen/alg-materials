@@ -12,3 +12,22 @@ public struct Person: Equatable {
   let age: Int
   let isMilitary: Bool
 }
+
+func tswiftSort(person1: Person, person2: Person) -> Bool {
+    if person1.isMilitary == person2.isMilitary {
+        return person1.age > person2.age
+    }
+    return person1.isMilitary
+}
+
+let p1 = Person(name: "Josh", age: 21, isMilitary: true)
+let p2 = Person(name: "Jake", age: 22, isMilitary: true)
+let p3 = Person(name: "Clay", age: 28, isMilitary: false)
+let p4 = Person(name: "Cindy", age: 28, isMilitary: false)
+let p5 = Person(name: "Sabrina", age: 30, isMilitary: false)
+let waitlist = [p1, p2, p3, p4, p5]
+var priorityQueue = PriorityQueue(sort: tswiftSort, elements:
+waitlist)
+while !priorityQueue.isEmpty {
+  print(priorityQueue.dequeue()!)
+}

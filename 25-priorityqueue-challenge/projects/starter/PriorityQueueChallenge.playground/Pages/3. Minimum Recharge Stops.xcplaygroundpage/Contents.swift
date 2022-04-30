@@ -43,5 +43,53 @@ enum DestinationResult {
 /// - Parameter startCharge: the starting charge you have to start the journey.
 /// - Parameter stations: the charging stations along the way.
 func minRechargeStops(target: Int, startCharge: Int, stations: [ChargingStation]) -> DestinationResult {
+    
+    
+    guard startCharge <= target else {
+        return .reachable(rechargeStops: 0)
+    }
+    
+    var minStops = -1
+    
+    var currentCharge = 0
+    
+    var currentStation = 0
+    
+    var chargePriority = PriorityQueue(sort: >, elements: [startCharge])
+    
+    while !chargePriority.isEmpty {
+        guard let charge = chargePriority.dequeue() else {
+            return .unreachable
+        }
+        
+        currentCharge += charge
+        
+        minStops += 1
+        
+        if currentCharge >= target {
+            return .reachable(rechargeStops: minStops)
+        }
+        
+        while currentStation < stations.count && currentCharge >= stations[currentStation].distance {
+            let distance = stations[currentStation].chargeCapacity
+            _ = chargePriority.enqueue(distance)
+            currentStation += 1
+        }
+    }
+    
   return .unreachable
 }
+
+
+let stations = [ChargingStation(distance: 10, chargeCapacity:60),
+                ChargingStation(distance: 20, chargeCapacity:30),
+                ChargingStation(distance: 30, chargeCapacity:30),
+                ChargingStation(distance: 60, chargeCapacity:40)]
+minRechargeStops(target: 100, startCharge: 10, stations: stations)
+
+
+let stations2 = [ChargingStation(distance: 1, chargeCapacity:10),
+                ChargingStation(distance: 2, chargeCapacity:10),
+                ChargingStation(distance: 3, chargeCapacity:10),
+                ChargingStation(distance: 50, chargeCapacity:50)]
+minRechargeStops(target: 100, startCharge: 40, stations: stations2)
