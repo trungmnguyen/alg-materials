@@ -17,10 +17,37 @@ extension Graph where Element: Hashable {
     var visited: [Vertex<Element>] = []
 
     // Recursive implementation
+      
+      queue.enqueue(source)
+      enqueued.insert(source)
+      
+      bfs(queue: &queue, enqueued: &enqueued, visited: &visited)
 
     return visited
   }
+    
+    private func bfs(queue: inout QueueStack<Vertex<Element>>,
+                     enqueued: inout Set<Vertex<Element>>,
+                     visited: inout [Vertex<Element>]) {
+        
+        
+        guard let vertex = queue.dequeue() else {
+            return
+        }
+        
+        visited.append(vertex)
+        let neighborEdges = edges(from: vertex)
+        neighborEdges.forEach { edge in
+            if !enqueued.contains(edge.destination) {
+                queue.enqueue(edge.destination)
+                enqueued.insert(edge.destination)
+            }
+        }
+        
+        bfs(queue: &queue, enqueued: &enqueued, visited: &visited)
+    }
 }
+
 
 
 //: ![sampleGraph](sampleGraph.png)

@@ -16,35 +16,47 @@
  */
 
 extension Graph where Element: Hashable {
-  
-  func breadthFirstSearch(from source: Vertex<Element>) -> [Vertex<Element>] {
-    var queue = QueueStack<Vertex<Element>>()
-    var enqueued: Set<Vertex<Element>> = []
-    var visited: [Vertex<Element>] = []
     
-    queue.enqueue(source)
-    enqueued.insert(source)
-    
-    while let vertex = queue.dequeue() {
-      visited.append(vertex)
-      let neighborEdges = edges(from: vertex)
-      neighborEdges.forEach { edge in
-        if !enqueued.contains(edge.destination) {
-          queue.enqueue(edge.destination)
-          enqueued.insert(edge.destination)
+    func breadthFirstSearch(from source: Vertex<Element>) -> [Vertex<Element>] {
+        var queue = QueueStack<Vertex<Element>>()
+        var enqueued: Set<Vertex<Element>> = []
+        var visited: [Vertex<Element>] = []
+        
+        queue.enqueue(source)
+        enqueued.insert(source)
+        
+        while let vertex = queue.dequeue() {
+            visited.append(vertex)
+            let neighborEdges = edges(from: vertex)
+            neighborEdges.forEach { edge in
+                if !enqueued.contains(edge.destination) {
+                    queue.enqueue(edge.destination)
+                    enqueued.insert(edge.destination)
+                }
+            }
         }
-      }
+        
+        return visited
     }
-    
-    return visited
-  }
 }
 
 extension Graph where Element: Hashable {
-  func isDisconnected() -> Bool {
-    // Add your code here
-    return false
-  }
+    func isDisconnected() -> Bool {
+        // Add your code here
+        guard let firstVertex = allVertices.first else {
+            return false
+        }
+        
+        let visited = breadthFirstSearch(from: firstVertex)
+        
+        for vertex in allVertices {
+            if !visited.contains(vertex) {
+                return true
+            }
+        }
+        
+        return false
+    }
 }
 
 
