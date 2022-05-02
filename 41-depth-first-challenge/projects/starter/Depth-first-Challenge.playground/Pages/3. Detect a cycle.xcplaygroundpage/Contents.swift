@@ -8,16 +8,35 @@
  */
 
 extension Graph where Element: Hashable {
-  
-  func hasCycle(from source: Vertex<Element>) -> Bool  {
     
-    // Add your code here
+    func hasCycle(from source: Vertex<Element>) -> Bool  {
+        
+        // Add your code here
+        var pushed: Set<Vertex<Element>> = []
+        
+        return hasCycle(from: source, pushed: &pushed)
+    }
     
-    return false
-  }
-  
-
+    func hasCycle(from source: Vertex<Element>, pushed: inout Set<Vertex<Element>>) -> Bool {
+        
+        pushed.insert(source)
+        
+        let neighbors = edges(from: source)
+        
+        for edge in neighbors {
+            if !pushed.contains(edge.destination) && hasCycle(from: edge.destination, pushed: &pushed){
+                return true
+            } else if pushed.contains(edge.destination) {
+                return true
+            }
+        }
+        pushed.remove(source)
+        return false
+    }
 }
+
+
+
 
 //: ![sampleGraph2](sampleGraph2.png)
 
