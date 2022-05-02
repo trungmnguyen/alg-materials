@@ -19,12 +19,43 @@ extension CGPoint: Hashable {
   }
 }
 
+extension CGPoint {
+    
+    func distanceSquared(to point: CGPoint) -> CGFloat {
+        let xDistance = (x - point.x)
+        let yDistance = (y - point.y)
+        
+        return xDistance * xDistance + yDistance * yDistance
+    }
+    
+    func distance(to point: CGPoint) -> CGFloat {
+        distanceSquared(to: point).squareRoot()
+    }
+}
+
 extension Prim where T == CGPoint {
+    
+    public func createCompleteGraph(with points: [CGPoint]) -> Graph {
+        let completeGraph = Graph()
+        
+        points.forEach { point in
+            completeGraph.createVertex(data: point)
+        }
+        
+        completeGraph.vertices.forEach {currentVertex in
+            completeGraph.vertices.forEach { vertex in
+                if currentVertex != vertex {
+                    let distance = Double(currentVertex.data.distance(to: vertex.data))
+                    completeGraph.addDirectedEdge(from: currentVertex, to: vertex, weight: distance)
+                }
+            }
+        }
+        return completeGraph
+    }
   
   public func produceMinimumSpanningTree(with points: [CGPoint]) -> (cost: Double, mst: Graph) {
-    let graph = Graph()
-    // Implement solution
-    return produceMinimumSpanningTree(for: graph)
+    let completeGraph = createCompleteGraph(with: points)
+    return produceMinimumSpanningTree(for: completeGraph)
   }
 }
 
