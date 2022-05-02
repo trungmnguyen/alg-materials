@@ -29,3 +29,9 @@ graph.add(.undirected, from: e, to: c, weight: 8)
 graph.add(.directed, from: e, to: b, weight: 1)
 graph.add(.directed, from: e, to: d, weight: 2)
 
+let dijkstra = Dijkstra(graph: graph)
+let pathsFromA = dijkstra.shortestPath(from: a) // 1
+let path = dijkstra.shortestPath(to: d, paths: pathsFromA) // 2
+for edge in path { // 3
+  print("\(edge.source) --|\(edge.weight ?? 0.0)|--> \(edge.destination)")
+}
